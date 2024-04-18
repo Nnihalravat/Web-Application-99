@@ -19,6 +19,7 @@ namespace Web_Application_99.Controllers
         return Ok();
         Console.WriteLine(name);
         Console.WriteLine("The name is");
+        Console.WriteLine("The name is s");
    
 
       }
