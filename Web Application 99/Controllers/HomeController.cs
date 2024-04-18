@@ -7,6 +7,18 @@ namespace Web_Application_99.Controllers
   [Route("[controller]")]
   public class HomeController : ControllerBase
   {
-    
+    [HttpPost]
+    public async Task<IActionResult> First(string name)
+    {
+      if (name == null)
+      {
+        return BadRequest();
+      }
+      else
+      {
+        return Ok();
+
+      }
+    }
   }
 }
