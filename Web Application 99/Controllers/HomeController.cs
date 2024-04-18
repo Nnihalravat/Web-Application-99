@@ -17,6 +17,9 @@ namespace Web_Application_99.Controllers
       else
       {
         return Ok();
+        Console.WriteLine(name);
+        Console.WriteLine("The name is");
+   
 
       }
     }
