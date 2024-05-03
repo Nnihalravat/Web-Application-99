@@ -11,6 +11,8 @@ namespace Web_Application_99.Models
 
     public string? Email { get; set; }
 
+    public string? Token { get; set; }
+
 
   }
 }

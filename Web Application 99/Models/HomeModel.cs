@@ -15,5 +15,6 @@ namespace Web_Application_99.Models
     public int Phone { get; set; }
 
     public string? Designation { get; set; }
+    public string? Token { get; internal set; }
   }
 }

@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using Web_Application_99.Interfaces;
 using Web_Application_99.Models;
 using Web_Application_99.Repositories;
@@ -20,12 +24,14 @@ public class HomeController : ControllerBase
 
 
   private readonly MyDbContext _dbContext;
-  private readonly IUser _userRepository; 
+  private readonly IUser _userRepository;
+  private readonly IConfiguration _configuration;
 
-  public HomeController(MyDbContext dbContext, IUser userRepository)
+  public HomeController(MyDbContext dbContext, IUser userRepository, IConfiguration configuration) 
   {
     _dbContext = dbContext;
     _userRepository = userRepository;
+    _configuration = configuration;
   }
 
   [HttpPost("User-Posts")]
@@ -37,6 +43,23 @@ public class HomeController : ControllerBase
     }
     else
     {
+
+      //// Generate a JWT token for the registered user
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]); // Use _configuration here
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(new Claim[]
+          {
+                new Claim(ClaimTypes.Name, model.Name, model.Email), // You can add more claims as needed
+          }),
+
+        Expires = DateTime.UtcNow.AddMinutes(5), // Set token expiration time as needed
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+      };
+      var token = tokenHandler.CreateToken(tokenDescriptor);
+      var tokenString = tokenHandler.WriteToken(token);
+
       Stopwatch sw = Stopwatch.StartNew();
       var user = new HomeModel
       {
@@ -44,6 +67,7 @@ public class HomeController : ControllerBase
         Email = model.Email,
         Designation = model.Designation,
         Phone = model.Phone,
+        Token = tokenString,
       };
 
       //_dbContext.Add(user);

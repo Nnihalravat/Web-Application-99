@@ -26,6 +26,8 @@ namespace Web_Application_99
 
     public DbSet<account> accounts { get; set; }
 
+    public DbSet<RegistrationForm> regs { get; set; }
+
     // Define a method to execute the stored procedure
     public async Task<List<account>> GetAccountsByGuidAsync(Guid accountId)
     {
