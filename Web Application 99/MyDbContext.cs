@@ -10,18 +10,8 @@ namespace Web_Application_99
     public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     {
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      base.OnModelCreating(modelBuilder);
-
-      // No need to map the stored procedure here
-    }
-
-
     public DbSet<RegistrationForm> regs { get; set; }
-
-    // Define a method to execute the stored procedure
+  
    
   }
 }
