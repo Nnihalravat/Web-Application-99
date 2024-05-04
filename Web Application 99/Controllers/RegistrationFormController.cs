@@ -67,8 +67,27 @@ namespace Web_Application_99.Controllers
       var delreg = await _context.regs.ToListAsync();
       _context.regs.RemoveRange(delreg);
       await _context.SaveChangesAsync();
-      return Ok(deleteMessage);
+      return Ok(new { message = "All Data successfully deleted" });
     }
+
+
+    [HttpDelete("Delete-Reggisters")]
+    public async Task<IActionResult> ViewsAllReggisters()
+    {
+      var delreg = await _context.regs.ToListAsync();
+
+      if (delreg.Count == 0)
+      {
+        return BadRequest(new { message = "There is no data to delete." });
+      }
+
+      _context.regs.RemoveRange(delreg);
+      await _context.SaveChangesAsync();
+      return Ok(new { message = "All Data successfully deleted" });
+    }
+
+
+
 
     [HttpGet("View-Registers-ById")]
     public async Task<IActionResult> ViewRegistersById(int Id)
@@ -81,6 +100,13 @@ namespace Web_Application_99.Controllers
     public async Task<IActionResult> ViewAllRegisters()
     {
       var allRegs = await _context.regs.ToListAsync();
+      return Ok(allRegs);
+    }
+
+    [HttpGet("Check-Registers-Existence")]
+    public async Task<IActionResult> Existence()
+    {
+      var allRegs =  _context.regs.ToListAsync();
       return Ok(allRegs);
     }
 

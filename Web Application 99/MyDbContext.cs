@@ -18,21 +18,10 @@ namespace Web_Application_99
       // No need to map the stored procedure here
     }
 
-    public DbSet<HomeModel> homes { get; set; }
-
-    public DbSet<MusicP> musics { get; set; }
-
-    public DbSet<User> users { get; set; }
-
-    public DbSet<account> accounts { get; set; }
 
     public DbSet<RegistrationForm> regs { get; set; }
 
     // Define a method to execute the stored procedure
-    public async Task<List<account>> GetAccountsByGuidAsync(Guid accountId)
-    {
-      // Execute the stored procedure using FromSqlRaw
-      return await accounts.FromSqlRaw("EXEC GetAccountByGuid @AccountId", new SqlParameter("@AccountId", accountId)).ToListAsync();
-    }
+   
   }
 }
